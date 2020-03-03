@@ -1,12 +1,12 @@
 import React from "react";
-import '../../assets/stylesheets/board.css';
+import "../../assets/stylesheets/board.css";
 
 class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             randomAlphabets : [],
-            foundWords : {},
+            foundWords : [], // list of object, [{'word':'..', 'score':3}, {....}]
             word : ''
         };
     }
@@ -14,7 +14,7 @@ class Board extends React.Component {
     componentDidMount() {
         for(let i=0; i<4; i++)
             this.setState(prevState => ({
-                    randomAlphabets:[...prevState.randomAlphabets, this.generateRandomAlphabet()]
+                randomAlphabets:[...prevState.randomAlphabets, this.generateRandomAlphabet()]
             }));
     }
 
@@ -36,9 +36,9 @@ class Board extends React.Component {
     createBoardColumns = () => {
         return this.state.randomAlphabets.map((row, rowId) =>
             (
-                <div className="row" id={"s-" + row} key={rowId}>
+                <div className="board-item-row" key={rowId}>
                     {row.map((col, colId) => (
-                        <div className="col-3 board-item-div" key={colId}>
+                        <div className="board-item-div" key={colId}>
                             <span>{col}</span>
                         </div>
                     ))
@@ -52,15 +52,29 @@ class Board extends React.Component {
         return (
             <div className="word-submit-section">
                 <h3>Submit words</h3>
-                <form className="row">
-                    <div className="form-group col-6">
-                        <input type="text" className="form-control" name="word" id="word_input_text" placeholder="Type words"/>
+                <form className="row" onSubmit={this.onSubmit}>
+                    <div className="form-group col-8">
+                        <input type="text" className="form-control" name="word" id="word_input_text" onChange={this.onChange} placeholder="Type words"/>
                     </div>
-                    <button type="submit" className="btn btn-success col-4">Submit</button>
+                    <button type="submit" className="btn btn-success col-3">Submit</button>
                 </form>
             </div>
         )
     };
+
+    onChange = (event) => {
+        this.setState({
+            [event.target.name] : event.target.value
+        })
+    };
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        const url = 'api/v1/checkwords';
+
+        console.log(this.state.word);
+    };
+
 
     render() {
         return (

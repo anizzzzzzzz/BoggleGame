@@ -1,28 +1,72 @@
 .game-board{
     border: 1px solid #CCCCCC;
+    padding: 10px;
+}
+
+.board-item-row{
+    display: flex;
+    flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
 }
 
 .board-item-div {
-    width: 80px;
-    height: 80px;
-    border-radius: 5px;
+    width: 20%;
+    height: 90px;
+    border-radius: 2px;
     background-color: #ffffff;
-    box-shadow: -4px 2px 8px 1px rgba(0,0,0,0.69);
+    border: 1px solid #c4c4c4;
     flex:1 1 auto;
-    margin:5px;
+    margin:2px;
 }
 .board-item-div:hover {
     cursor: pointer;
+    transform: scale(1.01);
 }
 .board-item-div.selected{
     background-color: #DADADA;
 }
+
 .board-item-div span {
-    font-weight: bold;
     display: block;
+    font-weight: bold;
+    color: #696969;
+    margin: 0 auto;
+    vertical-align: middle;
+    text-align: center;
     position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 45%;
-    font-size: 25px;
+    top: 30%;
+
+}
+.word-submit-section {
+    margin-top: 30px;
+}
+.word-submit-section h3{
+    display: table;
+    margin: 0 auto;
+    padding: 0 10px 10px 10px;
+}
+
+.word-submit-section button{
+    height: 100%;
+    width: 50%;
+}
+
+@media (max-width: 767px) {
+    .board-item-div {
+        height: 40px;
+    }
+
+    .board-item-div span {
+        top: 20%;
+    }
+
+    .word-submit-section >h3{
+        font-size: 20px;
+    }
+
+    .word-submit-section button{
+        width: 40px;
+        font-size: 18px;
+    }
 }

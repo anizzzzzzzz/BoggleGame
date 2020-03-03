@@ -1,5 +1,6 @@
 import React from "react";
 import Board from "./Board";
+import ScoreBoard from "./ScoreBoard";
 
 export default () => (
     <div className="container">
@@ -8,7 +9,7 @@ export default () => (
                 <Board/>
             </div>
             <div className="col-5">
-
+                <ScoreBoard/>
             </div>
         </div>
     </div>
