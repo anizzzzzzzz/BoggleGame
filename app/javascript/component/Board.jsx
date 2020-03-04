@@ -1,13 +1,16 @@
 import React from "react";
 import "../../assets/stylesheets/board.css";
+import {bindActionCreators} from "redux";
+import {saveCurrentScore} from "../redux/action/CurrentScore";
+import {connect} from "react-redux";
 
 class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             randomAlphabets : [],
-            foundWords : [], // list of object, [{'word':'..', 'score':3}, {....}]
-            word : ''
+            word : '',
+            track : 0,
         };
     }
 
@@ -38,7 +41,7 @@ class Board extends React.Component {
             (
                 <div className="board-item-row" key={rowId}>
                     {row.map((col, colId) => (
-                        <div className="board-item-div" key={colId}>
+                        <div className="board-item-div" data-x={rowId} data-y={colId} key={colId}>
                             <span>{col}</span>
                         </div>
                     ))
@@ -54,9 +57,10 @@ class Board extends React.Component {
                 <h3>Submit words</h3>
                 <form className="row" onSubmit={this.onSubmit}>
                     <div className="form-group col-8">
-                        <input type="text" className="form-control" name="word" id="word_input_text" onChange={this.onChange} placeholder="Type words"/>
+                        <input type="text" className="form-control" name="word" id="word_input_text"
+                               onChange={this.onChange} placeholder="Type words" disabled={this.props.timeUp}/>
                     </div>
-                    <button type="submit" className="btn btn-success col-3">Submit</button>
+                    <button type="submit" className="btn btn-success col-3" disabled={this.props.timeUp}>Submit</button>
                 </form>
             </div>
         )
@@ -65,14 +69,21 @@ class Board extends React.Component {
     onChange = (event) => {
         this.setState({
             [event.target.name] : event.target.value
-        })
+        });
     };
 
     onSubmit = (e) => {
         e.preventDefault();
-        const url = 'api/v1/checkwords';
+        // const url = 'api/v1/checkwords';
+        let error = this.state.word === "anish";
+        let score = {word:this.state.word, score:this.state.word.length, error:error};
+        this.props.saveCurrentScore(score);
 
-        console.log(this.state.word);
+        this.setState({
+            word:'',
+        });
+
+        e.target.reset();
     };
 
 
@@ -86,4 +97,16 @@ class Board extends React.Component {
     }
 }
 
-export default Board;
+let mapStateToProps = (state) => {
+    return {
+        timeUp : state.timeUp
+    };
+};
+
+let mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        saveCurrentScore : saveCurrentScore
+    }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);
