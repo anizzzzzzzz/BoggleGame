@@ -27,3 +27,10 @@
 .current-score tr.error{
     background-color: #ff7d73 !important;
 }
+
+.error-message{
+    font-size: 13px;
+    color:red;
+}
+.error-message-show{display: block;}
+.error-message-hide{display: none;}

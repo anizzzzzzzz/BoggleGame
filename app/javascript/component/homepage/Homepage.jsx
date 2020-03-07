@@ -1,6 +1,6 @@
 import React from "react";
-import Board from "./Board";
-import ScoreBoard from "./ScoreBoard";
+import Board from "../board/Board";
+import ScoreBoard from "../score/ScoreBoard";
 
 export default () => (
     <div className="container">

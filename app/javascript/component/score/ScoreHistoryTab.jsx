@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../assets/stylesheets/scoreboard.css";
+import "../../../assets/stylesheets/scoreboard.css";
 
 export default (props) => (
     <div className="score-history">

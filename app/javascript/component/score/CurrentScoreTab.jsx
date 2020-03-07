@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../assets/stylesheets/scoreboard.css";
+import "../../../assets/stylesheets/scoreboard.css";
 
 export default (props) => (
     <section className="current-score-section">
@@ -24,7 +24,8 @@ export default (props) => (
             </table>
         </div>
         <div className="current-total-score">
-            <span>Total Score : </span> <span>{props.currentScores.reduce((total, object) => total + object.score,0)}</span>
+            <span>Total Score : </span>
+            <span>{props.currentScores.filter(score => score.error!==true).reduce((total, object) => total + object.score,0)}</span>
         </div>
     </section>
 );

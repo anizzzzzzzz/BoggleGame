@@ -3,6 +3,6 @@ class HomepageController < ApplicationController
   end
 
   def init_boggle
-    render json: {"items":helpers.generate_boogle_matrix}
+    render json: {"items":helpers.generate_boggle_board_hasbro}
   end
 end

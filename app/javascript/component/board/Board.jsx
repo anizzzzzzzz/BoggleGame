@@ -1,56 +1,30 @@
 import React from "react";
-import "../../assets/stylesheets/board.css";
+import "../../../assets/stylesheets/board.css";
 import {bindActionCreators} from "redux";
-import {saveCurrentScore} from "../redux/action/CurrentScore";
+import {saveCurrentScore} from "../../redux/action/CurrentScore";
 import {connect} from "react-redux";
+import {emptyDiceConfig} from "../../redux/action/BoggleDice";
+import BoardDice from "./BoardDice";
 
 class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            randomAlphabets : [],
-            word : '',
-            track : 0,
+            intialRandomDice : [['U', 'E', 'S', 'B'], ['Q', 'V', 'V', 'L'], ['P', 'G', 'O', 'Z'], ['L', 'P', 'Y', 'N']],
+            word : ''
         };
     }
 
-    componentDidMount() {
-        for(let i=0; i<4; i++)
-            this.setState(prevState => ({
-                randomAlphabets:[...prevState.randomAlphabets, this.generateRandomAlphabet()]
-            }));
-    }
-
-    generateRandomAlphabet = () => {
-        let num = [];
-        for(let i=0; i<4; i++)
-            num.push(String.fromCharCode(65+Math.floor(Math.random() * 26)));
-        return num;
+    getDiceConfig = () => {
+        let diceConfig = this.props.diceConfig;
+        if(diceConfig.length > 0){
+            return diceConfig;
+        }
+        else
+            return this.state.intialRandomDice;
     };
 
-    render4By4Board = () => {
-        return (
-            <div className="game-board" id="game_board">
-                {this.createBoardColumns()}
-            </div>
-        )
-    };
-
-    createBoardColumns = () => {
-        return this.state.randomAlphabets.map((row, rowId) =>
-            (
-                <div className="board-item-row" key={rowId}>
-                    {row.map((col, colId) => (
-                        <div className="board-item-div" data-x={rowId} data-y={colId} key={colId}>
-                            <span>{col}</span>
-                        </div>
-                    ))
-                    }
-                </div>
-            )
-        );
-    };
-
+    /*For entering the words*/
     renderForm = () => {
         return (
             <div className="word-submit-section">
@@ -58,7 +32,9 @@ class Board extends React.Component {
                 <form className="row" onSubmit={this.onSubmit}>
                     <div className="form-group col-8">
                         <input type="text" className="form-control" name="word" id="word_input_text"
-                               onChange={this.onChange} placeholder="Type words" disabled={this.props.timeUp}/>
+                               onChange={this.onChange} placeholder="Type words"
+                               disabled={this.props.timeUp}
+                               ref={(element) => this.inputWord = element}/>
                     </div>
                     <button type="submit" className="btn btn-success col-3" disabled={this.props.timeUp}>Submit</button>
                 </form>
@@ -82,15 +58,17 @@ class Board extends React.Component {
         this.setState({
             word:'',
         });
-
         e.target.reset();
     };
 
-
     render() {
+        // resetting the input text to empty when time's up.
+        if(this.props.timeUp && this.inputWord){
+            this.inputWord.value=''
+        }
         return (
             <div className="container">
-                {this.render4By4Board()}
+                <BoardDice diceConfig={this.getDiceConfig()}/>
                 {this.renderForm()}
             </div>
         );
@@ -99,13 +77,15 @@ class Board extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        timeUp : state.timeUp
+        timeUp : state.timeUp,
+        diceConfig : state.boggleDiceConfig
     };
 };
 
 let mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        saveCurrentScore : saveCurrentScore
+        saveCurrentScore : saveCurrentScore,
+        emptyDiceConfig: emptyDiceConfig
     }, dispatch);
 };
 
