@@ -22,4 +22,14 @@ class HomepageHelperTest < ActionView::TestCase
     assert_equal dim, boggle_items.length # check row
     assert_equal dim, boggle_items[0].length # check col
   end
+
+  test "check if generated boggle items is random" do
+    # This test is to test whether the each row of boggle board is randomly generated or not.
+    # Will check each row of two generated boggle board.
+    dim = 4
+    boggle_items_1 = generate_boggle_board_hasbro.map{|row| row.join('')}
+    boggle_items_2 = generate_boggle_board_hasbro.map{|row| row.join('')}
+
+    (0...dim).each{ |index| assert_not_equal boggle_items_1[index], boggle_items_2[index]}
+  end
 end

@@ -7,12 +7,13 @@ module HomepageHelper
     chars = ("A".."Z").to_a # to array
     (0...dim).map{
       (0...dim).map {
-        rand_alpha = chars[rand(chars.length - 1)]
-        if rand_alpha == 'Q'
-          'Qu'
-        else
-          rand_alpha
-        end
+        chars[rand(chars.length - 1)] # will append the alphabet in matrix
+        # rand_alpha = chars[rand(chars.length - 1)]
+        # if rand_alpha == 'Q'
+        #   'Qu'
+        # else
+        #   rand_alpha
+        # end
       }
     }
   end
@@ -24,12 +25,13 @@ module HomepageHelper
     (0...dim).map do |i|
       (0...dim).map{ |j|
         letters = shuffled[dim * i + j]
-        random_char = letters[rand(letters.length)]
-        if random_char == 'Q'
-          'Qu'
-        else
-          random_char
-        end
+        letters[rand(letters.length)] # will append the alphabet in matrix
+        # random_char = letters[rand(letters.length)]
+        # if random_char == 'Q'
+        #   'Qu'
+        # else
+        #   random_char
+        # end
       }
     end
   end

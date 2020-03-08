@@ -5,6 +5,10 @@
 .score-board .header .ant-statistic-title{
     font-size: 16px;
 }
+
+.ant-tabs-tabpane{
+    border: 1px solid #e3e3e3;
+}
 .current-score, .score-history{
     text-align: center;
     min-height: 400px;
