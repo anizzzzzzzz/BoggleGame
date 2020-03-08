@@ -1,6 +1,6 @@
 require 'json'
 
-class TrieNode
+class TrieNode < ApplicationService
   attr_reader :value, :children, :is_end
   attr_writer :is_end
 

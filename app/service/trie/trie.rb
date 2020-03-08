@@ -1,9 +1,16 @@
-require_relative './TrieNode'
+require_relative './trie_node'
 
-class Trie
-  def initialize(word_list)
+class Trie < ApplicationService
+  DICTIONARY_FILEPATH = Rails.root.join('dictionary','new_dict.txt')
+
+  def initialize
+    puts "Loaded"
     @root = TrieNode.new("")
+    file = File.open(DICTIONARY_FILEPATH)
+    word_list = file.readlines.map { |line| line.gsub("\n","") }
+    file.close
     @word_list = word_list.sort
+    self::init
   end
 
   def root

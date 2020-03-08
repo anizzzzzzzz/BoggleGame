@@ -43,11 +43,6 @@ class ScoreBoard extends Component {
 
     startGame = () => {
         this.fetchBoggleDiceConfig();
-        this.props.restartCurrentScore();
-        this.setState({
-            deadline: this.changeMinutesToMilli(10)
-        });
-        this.props.setTimeUp(false);
     };
 
     fetchBoggleDiceConfig = async () => {
@@ -61,6 +56,11 @@ class ScoreBoard extends Component {
         }).then(response => {
             // console.log('response : ',response.items);
             this.props.saveDiceConfig(response.items);
+            this.props.restartCurrentScore();
+            this.setState({
+                deadline: this.changeMinutesToMilli(10)
+            });
+            this.props.setTimeUp(false);
         }).catch(ex => {
             if (ex instanceof InitializationException) {
                 this.setState({error:true});
