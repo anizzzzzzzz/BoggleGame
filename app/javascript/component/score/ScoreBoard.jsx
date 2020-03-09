@@ -30,8 +30,8 @@ class ScoreBoard extends Component {
     }
 
     changeMinutesToMilli = (minute) => {
-        // return new Date().getTime() + minute * 1000 * 60;
-        return new Date().getTime() + minute * 1000 ;
+        return new Date().getTime() + minute * 300 * 60;
+        // return new Date().getTime() + minute * 1000 ;
     };
 
     // After timer is complete, set the timeUp action of redux to true.

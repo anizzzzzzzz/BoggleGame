@@ -6,7 +6,7 @@
     font-size: 16px;
 }
 
-.ant-tabs-tabpane{
+.current-score{
     border: 1px solid #e3e3e3;
 }
 .current-score, .score-history{
@@ -31,7 +31,11 @@
 .current-score tr.error{
     background-color: #ff7d73 !important;
 }
-
+.current-score-error-message{
+    color:red;
+    font-size:12px;
+    padding: 10px 0;
+}
 .error-message{
     font-size: 13px;
     color:red;

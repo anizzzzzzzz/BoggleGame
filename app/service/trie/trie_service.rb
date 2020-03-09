@@ -1,16 +1,14 @@
 require_relative './trie_node'
 
-class Trie < ApplicationService
+class TrieStruct < ApplicationService
   DICTIONARY_FILEPATH = Rails.root.join('dictionary','new_dict.txt')
 
-  def initialize
-    puts "Loaded"
+  def initialize(dict_path)
+    dict_path = dict_path.empty? ? DICTIONARY_FILEPATH : dict_path
     @root = TrieNode.new("")
-    file = File.open(DICTIONARY_FILEPATH)
-    word_list = file.readlines.map { |line| line.gsub("\n","") }
+    file = File.open(dict_path)
+    file.readlines.each { |line| add_word_to_trie(line.gsub("\n","")) } # adding each word in the trie.
     file.close
-    @word_list = word_list.sort
-    self::init
   end
 
   def root
@@ -18,11 +16,11 @@ class Trie < ApplicationService
   end
 
   # Initializing the word dictionary in trie
-  def init
-    @word_list.each do |word|
-      self.add_word_to_trie(word)
-    end
-  end
+  # def init
+  #   @word_list.each do |word|
+  #     add_word_to_trie(word)
+  #   end
+  # end
 
   # Adding each word in the trie
   def add_word_to_trie(word)

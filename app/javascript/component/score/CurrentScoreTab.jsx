@@ -3,6 +3,7 @@ import "../../../assets/stylesheets/scoreboard.css";
 
 export default (props) => (
     <section className="current-score-section">
+        <div className="current-score-error-message">**Note: Hover on the row to view the error message.**</div>
         <div className="current-score">
             <table className="table table-striped">
                 <thead>
@@ -13,8 +14,9 @@ export default (props) => (
                 </tr>
                 </thead>
                 <tbody>
-                {props.currentScores.map((score, index) => (
-                    <tr key={index} className={score.error?"score-item error":"score-item"}>
+                {props.currentScores.sort((a,b) => (a.id < b.id)?1:-1)
+                    .map((score, index) => (
+                    <tr key={index} className={score.error?"score-item error":"score-item"} title={score.message}>
                         <td>{score.word}</td>
                         <td>:</td>
                         <td>{score.score}</td>

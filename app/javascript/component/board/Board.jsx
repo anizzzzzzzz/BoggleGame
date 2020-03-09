@@ -5,13 +5,15 @@ import {saveCurrentScore} from "../../redux/action/CurrentScore";
 import {connect} from "react-redux";
 import {emptyDiceConfig} from "../../redux/action/BoggleDice";
 import BoardDice from "./BoardDice";
+import {BoggleException} from "../../exception/Index";
 
 class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             intialRandomDice : [['U', 'E', 'S', 'B'], ['Q', 'V', 'V', 'L'], ['P', 'G', 'O', 'Z'], ['L', 'P', 'Y', 'N']],
-            word : ''
+            word : '',
+            disabled : false
         };
     }
 
@@ -33,7 +35,7 @@ class Board extends React.Component {
                     <div className="form-group col-8">
                         <input type="text" className="form-control" name="word" id="word_input_text"
                                onChange={this.onChange} placeholder="Type words"
-                               disabled={this.props.timeUp}
+                               disabled={this.props.timeUp && this.state.disabled}
                                ref={(element) => this.inputWord = element}/>
                     </div>
                     <button type="submit" className="btn btn-success col-3" disabled={this.props.timeUp}>Submit</button>
@@ -50,13 +52,44 @@ class Board extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        // const url = 'api/v1/checkwords';
-        let error = this.state.word === "anish";
-        let score = {word:this.state.word, score:this.state.word.length, error:error};
-        this.props.saveCurrentScore(score);
+        const url = 'check';
+        if(this.state.word.length === 0)
+            return;
+
+        this.setState({disabled:true});
+        const submittedWords = this.props.currentScores
+            .filter(score => score.error!==true).map(score => score.word);
+        const body = {
+            word : this.state.word,
+            board : this.props.diceConfig,
+            // board :[["N","T","L","S"],["I","H","M","E"],["O","V","Y","S"],["B","L","W","E"]],
+            submittedWords: submittedWords
+        };
+        const token = document.querySelector('meta[name="csrf-token"]').content;
+        fetch(url, {
+            method : 'POST',
+            headers : {
+                'X-CSRF-Token': token,
+                "Content-Type": 'application/json'
+            },
+            body : JSON.stringify(body)
+        })
+            .then(response => {
+            if(response.ok)
+                return response.json();
+            throw new BoggleException();
+        }).then(response => {
+            response['id'] = this.props.currentScores.length;
+            this.props.saveCurrentScore(response);
+        }).catch(ex => {
+            if (ex instanceof BoggleException) {
+                console.log(ex);
+            }
+        });
 
         this.setState({
             word:'',
+            disabled:false
         });
         e.target.reset();
     };
@@ -78,6 +111,7 @@ class Board extends React.Component {
 let mapStateToProps = (state) => {
     return {
         timeUp : state.timeUp,
+        currentScores : state.currentScores,
         diceConfig : state.boggleDiceConfig
     };
 };
