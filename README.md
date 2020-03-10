@@ -48,7 +48,10 @@ $ yarn install
 A trie is a tree-like, efficient information retrieval data structure whose nodes store the letters of an alphabet. By structuring the nodes in a particular way, words and strings can be retrieved from the structure by traversing down a branch path of the tree.
 
 The application will load 218596 words from the dictionary **'./dictionary/new_dict.txt'** using Trie data structure during server initialization. 
+
+
 ![Trie Image](./trie.png)
+
 ## Starting up the Web Server
 ```
 $ rails server
