@@ -4,7 +4,10 @@ require_relative "../../app/service/trie/trie_service"
 
 class BoggleController < ApplicationController
   DIMENSION = 4
-  before_action :load_trie, except: :init_boggle
+  before_action :load_trie, except: [:init_boggle]
+
+  def index
+  end
 
   def init_boggle
     @boggle_generator = BoggleGenerator.new

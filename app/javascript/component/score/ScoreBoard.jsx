@@ -136,7 +136,7 @@ class ScoreBoard extends Component {
                         <TabPane tab="Score" key="1">
                             <CurrentScoreTab currentScores={this.props.currentScores}/>
                         </TabPane>
-                        <TabPane tab="Score History" key="2">
+                        <TabPane tab="Highscore" key="2">
                             <ScoreHistoryTab scoreHistory={this.props.scoreHistory}/>
                         </TabPane>
                     </Tabs>

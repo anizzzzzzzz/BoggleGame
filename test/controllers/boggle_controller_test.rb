@@ -5,6 +5,11 @@ class BoggleControllerTest < ActionDispatch::IntegrationTest
   DIMENSION = 4
   BOGGLE_DICE = [%w(N T L S), %w(I H M E), %w(O V Y S), %w(B L W E)].freeze
 
+  test "should get index" do
+    get boggle_index_url
+    assert_response :success
+  end
+
   test "check if boggle returns success response code" do
     get '/init-boggle'
     assert_response :success
